@@ -29,12 +29,20 @@
   branch = "master"
   name = "github.com/bradfitz/go-smtpd"
 
-#[[constraint]]
-#  name = "github.com/docker/docker"
-#  branch = "18.01"
+[[constraint]]
+  name = "github.com/docker/docker"
+  branch = "master"
+[[override]]
+  name = "github.com/docker/libnetwork"
+  branch = "master"
+
 [[constraint]]
   name = "github.com/fsouza/go-dockerclient"
-  version = "v1.2.0"
+  version = "1.2.0"
+
+[[override]]
+  name = "github.com/opencontainers/runc"
+  branch = "master"
 
 [[constraint]]
   branch = "master"
@@ -50,7 +58,7 @@
 
 [[constraint]]
   name = "github.com/op/go-logging"
-  version = "1.0.0"
+  branch = "master"
 
 [[constraint]]
   name = "github.com/robfig/cron"
