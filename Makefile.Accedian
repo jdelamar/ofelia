@@ -22,6 +22,17 @@ docker: dockerbin
 push: docker
 	docker push $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER)
 
+circleci-bin:
+	make
+
+circleci-docker:
+	docker build -t $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER) .
+
+circleci-build:
+	docker push $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER)
+
+
+
 .FORCE:
 clean:
 	make clean
