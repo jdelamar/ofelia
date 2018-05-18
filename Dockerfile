@@ -1,12 +1,9 @@
-FROM golang:1.7
+FROM iron/go 
 MAINTAINER Máximo Cuadros <mcuadros@gmail.com>
 
-ADD . ${GOPATH}/src/github.com/mcuadros/ofelia
-WORKDIR ${GOPATH}/src/github.com/mcuadros/ofelia
-
-RUN go get -v ./... \
- && go install -v ./... \
- && rm -rf $GOPATH/src/
+RUN mkdir -p ${GOPATH}/bin
+ADD ./build/ofelia_linux_amd64/ ${GOPATH}/bin
+WORKDIR ${GOPATH}/bin
 
 VOLUME /etc/ofelia/
 CMD ["ofelia", "daemon", "--config", "/etc/ofelia/config.ini"]
