@@ -25,10 +25,10 @@ push: docker
 circleci-bin:
 	make
 
-circleci-docker:
+circleci-docker: circleci-bin
 	docker build -t $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER) .
 
-circleci-build:
+circleci-push: circleci-docker
 	docker push $(DOCKER_REPO_NAME)$(DOCKER_IMAGE_NAME):$(DOCKER_VER)
 
 

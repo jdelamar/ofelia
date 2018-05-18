@@ -89,7 +89,7 @@ jobs:
                export DOCKER_VER=$(git semver get)
                git push origin master ${DOCKER_VER}
                export GOPATH=/root/go
-               make -f Makefile.Accedian push
+               make -f Makefile.Accedian circleci-push
             fi
 
 workflows:
