@@ -1,3 +1,4 @@
+* Feature - adding docker support and fixing build
 * Feature - using newer dockerSDK
 ## Current Release
 ### 0.1.0
