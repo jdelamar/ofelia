@@ -38,16 +38,12 @@ endif
 # Rules
 all: clean packages
 
-dependencies:
-	@$(GOGET) -t ./...; \
-	for i in $(DEPENDENCIES); do $(GOGET) $$i; done
-
-test: dependencies
+test: .FORCE
 	@for p in $(PACKAGES); do \
 		$(GOTEST) $${p}; \
 	done;
 
-test-coverage: dependencies
+test-coverage: .FORCE
 	@echo "mode: $(COVERAGE_MODE)" > $(COVERAGE_REPORT); \
 	for p in $(PACKAGES); do \
 		$(GOTEST) $${p} -coverprofile=tmp_$(COVERAGE_REPORT) -covermode=$(COVERAGE_MODE); \
@@ -55,7 +51,7 @@ test-coverage: dependencies
 		rm tmp_$(COVERAGE_REPORT); \
 	done;
 
-packages: dependencies
+packages: .FORCE
 	@for os in $(PKG_OS); do \
 		for arch in $(PKG_ARCH); do \
 			cd $(BASE_PATH); \
@@ -73,3 +69,5 @@ packages: dependencies
 clean:
 	@rm -rf $(BUILD_PATH); \
 	$(GOCLEAN) .
+
+.FORCE:
