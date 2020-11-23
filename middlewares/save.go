@@ -13,8 +13,8 @@ import (
 
 // SaveConfig configuration for the Save middleware
 type SaveConfig struct {
-	SaveFolder      string `gcfg:"save-folder"`
-	SaveOnlyOnError bool   `gcfg:"save-only-on-error"`
+	SaveFolder      string `gcfg:"save-folder" mapstructure:"save-folder"`
+	SaveOnlyOnError bool   `gcfg:"save-only-on-error" mapstructure:"save-only-on-error"`
 }
 
 // NewSave returns a Save middleware if the given configuration is not empty
@@ -60,12 +60,12 @@ func (m *Save) saveToDisk(ctx *core.Context) error {
 	))
 
 	e := ctx.Execution
-	err := m.saveReaderToDisk(e.ErrorStream, fmt.Sprintf("%s.stderr.log", root))
+	err := m.saveReaderToDisk(bytes.NewReader(e.ErrorStream.Bytes()), fmt.Sprintf("%s.stderr.log", root))
 	if err != nil {
 		return err
 	}
 
-	err = m.saveReaderToDisk(e.OutputStream, fmt.Sprintf("%s.stdout.log", root))
+	err = m.saveReaderToDisk(bytes.NewReader(e.OutputStream.Bytes()), fmt.Sprintf("%s.stdout.log", root))
 	if err != nil {
 		return err
 	}

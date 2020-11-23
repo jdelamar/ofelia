@@ -16,13 +16,13 @@ import (
 
 // MailConfig configuration for the Mail middleware
 type MailConfig struct {
-	SMTPHost        string `gcfg:"smtp-host"`
-	SMTPPort        int    `gcfg:"smtp-port"`
-	SMTPUser        string `gcfg:"smtp-user"`
-	SMTPPassword    string `gcfg:"smtp-password"`
-	EmailTo         string `gcfg:"email-to"`
-	EmailFrom       string `gcfg:"email-from"`
-	MailOnlyOnError bool   `gcfg:"mail-only-on-error"`
+	SMTPHost        string `gcfg:"smtp-host" mapstructure:"smtp-host"`
+	SMTPPort        int    `gcfg:"smtp-port" mapstructure:"smtp-port"`
+	SMTPUser        string `gcfg:"smtp-user" mapstructure:"smtp-user"`
+	SMTPPassword    string `gcfg:"smtp-password" mapstructure:"smtp-password"`
+	EmailTo         string `gcfg:"email-to" mapstructure:"email-to"`
+	EmailFrom       string `gcfg:"email-from" mapstructure:"email-from"`
+	MailOnlyOnError bool   `gcfg:"mail-only-on-error" mapstructure:"mail-only-on-error"`
 }
 
 // NewMail returns a Mail middleware if the given configuration is not empty
@@ -70,12 +70,12 @@ func (m *Mail) sendMail(ctx *core.Context) error {
 
 	base := fmt.Sprintf("%s_%s", ctx.Job.GetName(), ctx.Execution.ID)
 	msg.Attach(base+".stdout.log", gomail.SetCopyFunc(func(w io.Writer) error {
-		_, err := io.Copy(w, ctx.Execution.OutputStream)
+		_, err := w.Write(ctx.Execution.OutputStream.Bytes())
 		return err
 	}))
 
 	msg.Attach(base+".stderr.log", gomail.SetCopyFunc(func(w io.Writer) error {
-		_, err := io.Copy(w, ctx.Execution.ErrorStream)
+		_, err := w.Write(ctx.Execution.ErrorStream.Bytes())
 		return err
 	}))
 
