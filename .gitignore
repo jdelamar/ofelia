@@ -6,5 +6,5 @@ build/*
 *~
 ~.swp*
 build
-bin
+bin/*
 *coverage*
