@@ -67,8 +67,4 @@ packages:
 	done;
 
 clean:
-	@rm -rf $(BUILD_PATH); \
-	$(GOCLEAN) .
-
-.FORCE:
 	@rm -rf $(BUILD_PATH)
