@@ -60,7 +60,7 @@ packages:
 			for content in $(PKG_CONTENT); do \
 				cp -rfv $${content} $(BUILD_PATH)/$(PROJECT)_$${os}_$${arch}/; \
 			done; \
-			TAR_PATH=$(BUILD_PATH)/$(PROJECT)_$(BRANCH)_$${os}_$${arch}.tar.gz;\
+			TAR_PATH=$(BUILD_PATH)/$(PROJECT)_$${os}_$${arch}.tar.gz;\
 			cd  $(BUILD_PATH) && tar -cvzf $${TAR_PATH} $(PROJECT)_$${os}_$${arch}/; \
 			du -h $${TAR_PATH};\
 		done; \
