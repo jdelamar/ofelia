@@ -5,3 +5,6 @@ debug
 build/*
 *~
 ~.swp*
+build
+bin
+*coverage*
