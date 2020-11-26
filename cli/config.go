@@ -13,11 +13,11 @@ import (
 )
 
 const (
-	logFormat     = "%{color}%{shortfile} ▶ %{level}%{color:reset} %{message}"
-	jobExec       = "job-exec"
-	jobRun        = "job-run"
-	jobServiceRun = "job-service-run"
-	jobLocal      = "job-local"
+	logFormat        = "%{color}%{shortfile} ▶ %{level}%{color:reset} %{message}"
+	jobExec          = "job-exec"
+	jobRun           = "job-run"
+	jobServiceRun    = "job-service-run"
+	jobLojobLocalcal = "job-local"
 )
 
 var IsDockerEnv bool

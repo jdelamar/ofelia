@@ -31,7 +31,7 @@ func (j *RunServiceJob) Run(ctx *Context) error {
 		return err
 	}
 
-	svc, err := j.buildService()
+	svc, err := j.buildService(ctx)
 
 	if err != nil {
 		return err
@@ -40,6 +40,9 @@ func (j *RunServiceJob) Run(ctx *Context) error {
 	ctx.Logger.Noticef("Created service %s for job %s\n", svc.ID, j.Name)
 
 	if err := j.watchContainer(ctx, svc.ID); err != nil {
+		// Still attempt to delete the service
+		j.deleteService(ctx, svc.ID)
+		ctx.Logger.Errorf("Failed to run service %s: %s", svc.ID, err.Error())
 		return err
 	}
 
@@ -55,7 +58,7 @@ func (j *RunServiceJob) pullImage() error {
 	return nil
 }
 
-func (j *RunServiceJob) buildService() (*swarm.Service, error) {
+func (j *RunServiceJob) buildService(ctx *Context) (*swarm.Service, error) {
 
 	//createOptions := types.ServiceCreateOptions{}
 
@@ -86,8 +89,10 @@ func (j *RunServiceJob) buildService() (*swarm.Service, error) {
 
 	if j.Command != "" {
 		createSvcOpts.ServiceSpec.TaskTemplate.ContainerSpec.Command = strings.Split(j.Command, " ")
+		createSvcOpts.ServiceSpec.TaskTemplate.ContainerSpec.TTY = j.TTY
 	}
 
+	ctx.Logger.Noticef("Creating service with command %s", j.Command)
 	svc, err := j.Client.CreateService(createSvcOpts)
 	if err != nil {
 		return nil, err
